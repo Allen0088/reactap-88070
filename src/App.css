@@ -1,0 +1,23 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: rgb(36, 36, 36);
+  display: block;
+}
+
+.logoCarrito{
+  object-fit: contain;
+  width: 40px;
+}
+
+.navBar{
+  display: flex;
+  justify-content: space-between;
+  width: 1900px;
+  height: 200px;
+  padding: 15px;
+}
