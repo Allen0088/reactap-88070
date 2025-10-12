@@ -4,13 +4,7 @@ import { MyCard } from './Card';
 export const CardList = ({ producto }) => {
 
 return (
-    <div style={{
-display: 'flex',
-flexWrap: 'wrap',
-gap: '20px',
-padding: '20px',
-justifyContent: 'center'
-    }}>
+    <div className="global">
 {producto.map(objeto => (
         <MyCard key={objeto.id} objeto={objeto} />
 ))}
