@@ -1,3 +1,5 @@
+import { BrowserRouter,  Routes , Route } from "react-router-dom";
+
 import { useEffect, useState } from "react";
 import './App.css'
 import data from "./components/data/MOCK_DATA.json"
@@ -13,7 +15,7 @@ const [loading, setLoading]= useState(true)
 
 useEffect(() => {
   new Promise ((res, rej) => {
-    setTimeout(() => res (data), 3000)
+    setTimeout(() => res (data), 2000)
   })
   .then(respuesta => {
     setProducto(respuesta)
@@ -26,12 +28,31 @@ if(loading) return <img src={cargando} className="loading-uno" />
 
 
   return( 
-    <>
-  <Navbar />
-<ItemListContainer>
-<CardList producto={producto}/>
-</ItemListContainer>
-  </>
+    <BrowserRouter>
+    <Navbar />
+    <Routes>
+      <Route path="/" element={
+        <ItemListContainer>
+          <CardList producto={producto} />
+        </ItemListContainer>
+      } />
+      
+      <Route path="/remeras" element={
+        <ItemListContainer>
+          <CardList producto={producto.filter(p => p.Categoria === "Remeras")} />
+        </ItemListContainer>
+      } />
+
+      <Route path="/zapatillas" element={
+        <ItemListContainer>
+          <CardList producto={producto.filter(p => p.Categoria === "Calzado")} />
+        </ItemListContainer>
+      } />
+
+      <Route path="/contact" element={<h2>Contacto </h2>} />
+      <Route path="*" element={<h2>Error</h2>} />
+    </Routes>
+  </BrowserRouter>
   )
 }
 
