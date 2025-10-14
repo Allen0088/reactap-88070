@@ -7,6 +7,7 @@ import cargando from "./assets/cargando.png"
 import { Navbar } from "./components/NavBar";
 import { ItemListContainer } from "./components/ItemListContainer";
 import { CardList } from "./components/CardList"; 
+import { ItemDetailContainer } from './components/ItemDetailContainer';
 import { MyCard } from './components/Card';
 
 function App() {
@@ -50,6 +51,7 @@ if(loading) return <img src={cargando} className="loading-uno" />
       } />
 
       <Route path="/contact" element={<h2>Contacto </h2>} />
+      <Route path="/producto/:id" element={<ItemDetailContainer />} />
       <Route path="*" element={<h2>Error</h2>} />
     </Routes>
   </BrowserRouter>
