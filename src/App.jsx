@@ -1,61 +1,39 @@
-import { BrowserRouter,  Routes , Route } from "react-router-dom";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-import './App.css'
-import data from "./components/data/MOCK_DATA.json"
-import cargando from "./assets/cargando.png"
-import { Navbar } from "./components/NavBar";
-import { ItemListContainer } from "./components/ItemListContainer";
-import { CardList } from "./components/CardList"; 
-import { ItemDetailContainer } from './components/ItemDetailContainer';
-import { MyCard } from './components/Card';
+import "./App.css";
+import data from "./data/MOCK_DATA.json";
+import cargando from "./assets/cargando.png";
+import { NavBar } from "./components/nav/NavBar";
+import Home from "./pages/Home";        
+import { ProductDetail } from "./pages/ProductDetail";
+import { Contact } from "./pages/Contact";
 
 function App() {
-const [producto, setProducto] = useState([])
-const [loading, setLoading]= useState(true)
+  const [producto, setProducto] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  new Promise ((res, rej) => {
-    setTimeout(() => res (data), 2000)
-  })
-  .then(respuesta => {
-    setProducto(respuesta)
-  })
-  .catch(error => console.log(error))
-  .finally(() => setLoading(false))
-}, [])
+  useEffect(() => {
+    new Promise((res) => {
+      setTimeout(() => res(data), 2000);
+    })
+      .then(respuesta => setProducto(respuesta))
+      .finally(() => setLoading(false));
+  }, []);
 
-if(loading) return <img src={cargando} className="loading-uno" />
+  if (loading) return <img src={cargando} className="loading-uno" />;
 
-
-  return( 
+  return (
     <BrowserRouter>
-    <Navbar />
-    <Routes>
-      <Route path="/" element={
-        <ItemListContainer>
-          <CardList producto={producto} />
-        </ItemListContainer>
-      } />
-      
-      <Route path="/remeras" element={
-        <ItemListContainer>
-          <CardList producto={producto.filter(p => p.Categoria === "Remeras")} />
-        </ItemListContainer>
-      } />
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home producto={producto} />} />
+        <Route path="/remeras" element={<Home producto={producto.filter(p => p.Categoria === "Remeras")} />} />
+        <Route path="/zapatillas" element={<Home producto={producto.filter(p => p.Categoria === "Calzado")} />} />
+        <Route path="/producto/:id" element={<ProductDetail />} />
+        <Route path="/contacto" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
+  );
+} 
 
-      <Route path="/zapatillas" element={
-        <ItemListContainer>
-          <CardList producto={producto.filter(p => p.Categoria === "Calzado")} />
-        </ItemListContainer>
-      } />
-
-      <Route path="/contact" element={<h2>Contacto </h2>} />
-      <Route path="/producto/:id" element={<ItemDetailContainer />} />
-      <Route path="*" element={<h2>Error</h2>} />
-    </Routes>
-  </BrowserRouter>
-  )
-}
-
-export default App
+export default App;
