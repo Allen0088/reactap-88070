@@ -1,0 +1,95 @@
+// src/context/CartContext.jsx
+import React, { createContext, useState, useContext, useEffect } from 'react';
+
+const CartContext = createContext();
+
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart debe usarse dentro de un CartProvider');
+  }
+  return context;
+};
+
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
+
+  // ✅ Cargar carrito desde localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('cart');
+    if (saved) {
+      try {
+        setCart(JSON.parse(saved));
+      } catch (e) {
+        console.error('Error al cargar el carrito:', e);
+        setCart([]);
+      }
+    }
+  }, []);
+
+  // ✅ Sincronizar carrito con localStorage
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }, [cart]);
+
+  const addToCart = (producto, cantidad = 1) => {
+    setCart(prevCart => {
+      const stockDisponible = producto.stock || Infinity;
+      const yaEnCarrito = prevCart.find(item => item.id === producto.id);
+      const cantidadActual = yaEnCarrito ? yaEnCarrito.cantidad : 0;
+      const nuevaCantidad = cantidadActual + cantidad;
+
+      if (nuevaCantidad > stockDisponible) {
+        return prevCart;
+      }
+
+      if (yaEnCarrito) {
+        return prevCart.map(item =>
+          item.id === producto.id
+            ? { ...item, cantidad: nuevaCantidad }
+            : item
+        );
+      } else {
+        return [...prevCart, { ...producto, cantidad }];
+      }
+    });
+  };
+
+  const removeFromCart = (id) => {
+    setCart(prevCart => {
+      const updatedCart = prevCart.filter(item => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(updatedCart)); // Actualiza el carrito en localStorage
+      return updatedCart;
+    });
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('cart'); // Limpiar carrito del localStorage
+  };
+
+  const getTotalItems = () => {
+    return cart.reduce((total, item) => total + item.cantidad, 0);
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.Precio * item.cantidad, 0);
+  };
+
+  const value = {
+    cart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    getTotalItems,
+    getTotalPrice,
+  };
+
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+    </CartContext.Provider>
+  );
+};

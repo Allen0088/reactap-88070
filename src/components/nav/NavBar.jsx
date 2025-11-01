@@ -1,16 +1,20 @@
-import CartWidget from "../cart/CartWidget";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { CartWidget } from '../cart/CartWidget';
 
-
-export const NavBar = () => (
+export const NavBar = () => {
+return (
     <div className="navBar">
-    <img src="https://cdn-icons-png.flaticon.com/128/18399/18399459.png" alt=" logo" />
+    <img src="https://cdn-icons-png.flaticon.com/128/18399/18399459.png" alt="logo" />
     <ul className="nav-dos">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/remeras">Remeras</Link></li>
         <li><Link to="/zapatillas">Zapatillas</Link></li>
-        <li><Link to="/contacto">Contact</Link></li>
+        <li><Link to="/contacto">Contacto</Link></li>
     </ul>
-    <CartWidget/>
-</div>
+    <Link to="/carrito">
+        <CartWidget />
+    </Link>
+    </div>
 );
+};
