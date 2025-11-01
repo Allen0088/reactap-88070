@@ -9,8 +9,7 @@ const { id } = useParams();
 const { cart, addToCart } = useCart();
 
 const [producto, setProducto] = useState(null);
-  const [enCarrito, setEnCarrito] = useState(false); // ✅ Estado para saber si ya está en el carrito
-
+const [enCarrito, setEnCarrito] = useState(false); 
 useEffect(() => {
     const db = getFirestore();
     const refDoc = doc(db, "items", id);

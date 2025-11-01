@@ -14,7 +14,6 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  // ✅ Cargar carrito desde localStorage
   useEffect(() => {
     const saved = localStorage.getItem('cart');
     if (saved) {
@@ -27,7 +26,6 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Sincronizar carrito con localStorage
   useEffect(() => {
     if (cart.length > 0) {
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -60,14 +58,14 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (id) => {
     setCart(prevCart => {
       const updatedCart = prevCart.filter(item => item.id !== id);
-      localStorage.setItem('cart', JSON.stringify(updatedCart)); // Actualiza el carrito en localStorage
+      localStorage.setItem('cart', JSON.stringify(updatedCart)); 
       return updatedCart;
     });
   };
 
   const clearCart = () => {
     setCart([]);
-    localStorage.removeItem('cart'); // Limpiar carrito del localStorage
+    localStorage.removeItem('cart'); 
   };
 
   const getTotalItems = () => {
