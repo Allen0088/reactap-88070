@@ -1,35 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-const db = getFirestore(window.firebaseApp);
-
-const hacerOrden = async () => {
-  const user = window.firebaseAuth.currentUser;
-  if (!user) {
-    alert("Error: usuario no listo");
-    return;
-  }
-
-  const orden = {
-    items: cart,
-    total: getTotalPrice(),
-    fecha: serverTimestamp(),
-    userId: user.uid,
-    estado: "pendiente"
-  };
-
-  try {
-    const docRef = await addDoc(collection(db, "ordenes"), orden);
-    console.log("Orden guardada ID:", docRef.id);
-    alert("¡Orden enviada con éxito!");
-    setCart([]);
-    localStorage.removeItem('cart');
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Orden fallida");
-  }
-};
-
 const CartContext = createContext();
 
 export const useCart = () => {
@@ -43,6 +14,7 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
+  
   useEffect(() => {
     const saved = localStorage.getItem('cart');
     if (saved) {
@@ -55,12 +27,14 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
+  
   useEffect(() => {
     if (cart.length > 0) {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
   }, [cart]);
 
+ 
   const addToCart = (producto, cantidad = 1) => {
     setCart(prevCart => {
       const stockDisponible = producto.stock || Infinity;
@@ -69,6 +43,7 @@ export const CartProvider = ({ children }) => {
       const nuevaCantidad = cantidadActual + cantidad;
 
       if (nuevaCantidad > stockDisponible) {
+        alert(`Solo hay ${stockDisponible} en stock`);
         return prevCart;
       }
 
@@ -87,15 +62,17 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (id) => {
     setCart(prevCart => {
       const updatedCart = prevCart.filter(item => item.id !== id);
-      localStorage.setItem('cart', JSON.stringify(updatedCart)); 
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
       return updatedCart;
     });
   };
 
+ 
   const clearCart = () => {
     setCart([]);
-    localStorage.removeItem('cart'); 
+    localStorage.removeItem('cart');
   };
+
 
   const getTotalItems = () => {
     return cart.reduce((total, item) => total + item.cantidad, 0);
@@ -105,6 +82,40 @@ export const CartProvider = ({ children }) => {
     return cart.reduce((total, item) => total + item.Precio * item.cantidad, 0);
   };
 
+
+  const hacerOrden = async () => {
+    if (!window.firebaseApp || !window.firebaseAuth) {
+      alert("Firebase no está listo");
+      return;
+    }
+
+    const db = getFirestore(window.firebaseApp);
+    const user = window.firebaseAuth.currentUser;
+
+    if (!user) {
+      alert("Usuario no autenticado");
+      return;
+    }
+
+    const orden = {
+      items: cart,
+      total: getTotalPrice(),
+      fecha: serverTimestamp(),
+      userId: user.uid,
+      estado: "pendiente"
+    };
+
+    try {
+      const docRef = await addDoc(collection(db, "ordenes"), orden);
+      console.log("Orden guardada ID:", docRef.id);
+      alert("¡Orden enviada con éxito!");
+      clearCart(); 
+    } catch (error) {
+      console.error("Error al guardar orden:", error);
+      alert("Orden fallida: " + error.message);
+    }
+  };
+
   const value = {
     cart,
     addToCart,
@@ -112,6 +123,7 @@ export const CartProvider = ({ children }) => {
     clearCart,
     getTotalItems,
     getTotalPrice,
+    hacerOrden,
   };
 
   return (

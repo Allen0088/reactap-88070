@@ -12,6 +12,9 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 };
 
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     signInAnonymously(auth)
@@ -22,8 +25,5 @@ onAuthStateChanged(auth, (user) => {
 
 window.firebaseApp = app;
 window.firebaseAuth = auth;
-
-const app = initializeApp(firebaseConfig);
-
 
 createRoot(document.getElementById('root')).render(<App />);
