@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
-import cargando from "./assets/cargando.png";
 import { NavBar } from "./components/nav/NavBar";
 import Home from "./pages/Home";        
 import { ProductDetail } from "./pages/ProductDetail";
