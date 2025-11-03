@@ -377,7 +377,7 @@ justify-content: center;
 }
 
 .home-container {
-  min-height: calc(100vh - 70px); /* 70px es la altura del header */
+  min-height: calc(100vh - 70px); 
   display: flex;
   flex-direction: column;
   padding: 20px 0;
@@ -577,5 +577,12 @@ justify-content: center;
   font-weight: bold;
   margin-top: 10px;
   text-align: center;
+}
+
+.loading {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  padding: 50px;
 }
 
