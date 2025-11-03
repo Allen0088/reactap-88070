@@ -28,7 +28,6 @@ useEffect(() => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <img src={cargando} className="loading-uno" />;
 
   return (
     <CartProvider>
