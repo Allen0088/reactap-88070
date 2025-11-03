@@ -14,20 +14,19 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  
+ 
   useEffect(() => {
     const saved = localStorage.getItem('cart');
     if (saved) {
       try {
         setCart(JSON.parse(saved));
       } catch (e) {
-        console.error('Error al cargar el carrito:', e);
         setCart([]);
       }
     }
   }, []);
 
-  
+ 
   useEffect(() => {
     if (cart.length > 0) {
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -35,6 +34,7 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
  
+
   const addToCart = (producto, cantidad = 1) => {
     setCart(prevCart => {
       const stockDisponible = producto.stock || Infinity;
@@ -67,12 +67,10 @@ export const CartProvider = ({ children }) => {
     });
   };
 
- 
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem('cart');
   };
-
 
   const getTotalItems = () => {
     return cart.reduce((total, item) => total + item.cantidad, 0);
@@ -82,14 +80,14 @@ export const CartProvider = ({ children }) => {
     return cart.reduce((total, item) => total + item.Precio * item.cantidad, 0);
   };
 
-
+ 
   const hacerOrden = async () => {
     if (!window.firebaseApp || !window.firebaseAuth) {
-      alert("Firebase no está listo");
+      alert("Firebase no está listo. Intenta de nuevo en unos segundos.");
       return;
     }
 
-    const db = getFirestore(window.firebaseApp);
+    const db = getFirestore(window.firebaseApp); 
     const user = window.firebaseAuth.currentUser;
 
     if (!user) {
@@ -109,7 +107,7 @@ export const CartProvider = ({ children }) => {
       const docRef = await addDoc(collection(db, "ordenes"), orden);
       console.log("Orden guardada ID:", docRef.id);
       alert("¡Orden enviada con éxito!");
-      clearCart(); 
+      clearCart();
     } catch (error) {
       console.error("Error al guardar orden:", error);
       alert("Orden fallida: " + error.message);
