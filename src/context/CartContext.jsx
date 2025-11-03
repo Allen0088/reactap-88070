@@ -80,39 +80,33 @@ export const CartProvider = ({ children }) => {
     return cart.reduce((total, item) => total + item.Precio * item.cantidad, 0);
   };
 
- 
-  const hacerOrden = async () => {
-    if (!window.firebaseApp || !window.firebaseAuth) {
-      alert("Firebase no está listo. Intenta de nuevo en unos segundos.");
-      return;
-    }
+const hacerOrden = async () => {
+  if (!window.firebaseApp || !window.firebaseAuth?.currentUser) {
+    alert("Firebase no listo");
+    return;
+  }
 
-    const db = getFirestore(window.firebaseApp); 
-    const user = window.firebaseAuth.currentUser;
+  const db = getFirestore(window.firebaseApp);
+  const user = window.firebaseAuth.currentUser;
 
-    if (!user) {
-      alert("Usuario no autenticado");
-      return;
-    }
-
-    const orden = {
-      items: cart,
-      total: getTotalPrice(),
-      fecha: serverTimestamp(),
-      userId: user.uid,
-      estado: "pendiente"
-    };
-
-    try {
-      const docRef = await addDoc(collection(db, "ordenes"), orden);
-      console.log("Orden guardada ID:", docRef.id);
-      alert("¡Orden enviada con éxito!");
-      clearCart();
-    } catch (error) {
-      console.error("Error al guardar orden:", error);
-      alert("Orden fallida: " + error.message);
-    }
+  const orden = {
+    items: cart,
+    total: getTotalPrice(),
+    fecha: serverTimestamp(),
+    userId: user.uid,
+    estado: "pendiente"
   };
+
+  try {
+    const docRef = await addDoc(collection(db, "ordenes"), orden);
+    console.log("Orden guardada:", docRef.id);
+    alert("¡Orden enviada!");
+    clearCart();
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Error: " + error.message);
+  }
+};
 
   const value = {
     cart,
