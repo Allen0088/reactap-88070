@@ -13,6 +13,5 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-window.firebaseApp = app;
 
 createRoot(document.getElementById('root')).render(<App />);
