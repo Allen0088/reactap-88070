@@ -25,7 +25,9 @@ useEffect(() => {
         }));
         setProducto(data);
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+      console.error('Error al cargar productos:', error);
+      setLoading(false);})
       .finally(() => setLoading(false));
   }, []);
 
