@@ -1,5 +1,34 @@
-// src/context/CartContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
+
+const db = getFirestore(window.firebaseApp);
+
+const hacerOrden = async () => {
+  const user = window.firebaseAuth.currentUser;
+  if (!user) {
+    alert("Error: usuario no listo");
+    return;
+  }
+
+  const orden = {
+    items: cart,
+    total: getTotalPrice(),
+    fecha: serverTimestamp(),
+    userId: user.uid,
+    estado: "pendiente"
+  };
+
+  try {
+    const docRef = await addDoc(collection(db, "ordenes"), orden);
+    console.log("Orden guardada ID:", docRef.id);
+    alert("¡Orden enviada con éxito!");
+    setCart([]);
+    localStorage.removeItem('cart');
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Orden fallida");
+  }
+};
 
 const CartContext = createContext();
 
