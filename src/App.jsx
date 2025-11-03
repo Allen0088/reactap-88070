@@ -11,7 +11,6 @@ import { getFirestore, getDocs, collection, query, where  } from "firebase/fires
 
 function App() {
   const [producto, setProducto] = useState([]);
-  const [loading, setLoading] = useState(true);
 
 useEffect(() => {
     const db = getFirestore();
