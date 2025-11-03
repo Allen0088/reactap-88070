@@ -25,7 +25,6 @@ useEffect(() => {
         setProducto(data);
       })
       .catch(error => console.log(error))
-      .finally(() => setLoading(false));
   }, []);
 
 
