@@ -81,19 +81,18 @@ export const CartProvider = ({ children }) => {
   };
 
 const hacerOrden = async () => {
-  if (!window.firebaseApp || !window.firebaseAuth?.currentUser) {
+  const app = window.firebaseApp;
+  if (!app) {
     alert("Firebase no listo");
     return;
   }
 
-  const db = getFirestore(window.firebaseApp);
-  const user = window.firebaseAuth.currentUser;
+  const db = getFirestore(app);
 
   const orden = {
     items: cart,
     total: getTotalPrice(),
     fecha: serverTimestamp(),
-    userId: user.uid,
     estado: "pendiente"
   };
 

@@ -13,29 +13,27 @@ function App() {
   const [producto, setProducto] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const app = window.firebaseApp;
-    if (!app) {
-      console.error("Firebase no está inicializado aún");
-      return;
-    }
+ useEffect(() => {
+  const app = window.firebaseApp;
+  if (!app) {
+    console.error("Firebase no inicializado");
+    return;
+  }
 
-    const db = getFirestore(app); 
-    const refCollection = collection(db, "items");
+  const db = getFirestore(app);
+  const refCollection = collection(db, "items");
 
-    getDocs(refCollection)
-      .then((snapshot) => {
-        const data = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setProducto(data);
-      })
-      .catch(error => {
-        console.error('Error al cargar productos:', error);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  getDocs(refCollection)
+    .then((snapshot) => {
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProducto(data);
+    })
+    .catch(error => console.error('Error:', error))
+    .finally(() => setLoading(false));
+}, []);
 
   if (loading) return <div className="loading">Cargando...</div>;
 
