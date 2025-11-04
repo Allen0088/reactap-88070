@@ -11,7 +11,7 @@ console.log("🔥 Firebase Config:", {
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAOUVyM7WgimOqQDw2dsO1mQxZi9ag7dvI", // ← hardcodeada
+  apiKey: "AIzaSyAOUVyM7WgimOqQDw2dsO1mQxZi9ag7dvI",
   authDomain: "venusapp-cb3af.firebaseapp.com",
   projectId: "venusapp-cb3af",
   storageBucket: "venusapp-cb3af.firebasestorage.app",
@@ -22,17 +22,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-
-const auth = getAuth(app);
-
-
-signInAnonymously(auth)
-  .then(() => {
-    console.log("Usuario autenticado de forma anónima");
-  })
-  .catch((error) => {
-    console.error("Error en la autenticación:", error.message);
-  });
 
 
 window.firebaseApp = app;
