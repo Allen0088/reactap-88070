@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
+import { connectAuthEmulator } from 'firebase/auth';
 
 console.log("🔥 Firebase Config:", {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -22,6 +23,21 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+
+const auth = getAuth(app);
+
+if (import.meta.env.DEV) {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  console.log("🔌 Emulador de Auth activado");
+}
+
+signInAnonymously(auth)
+  .then(() => {
+    console.log("Usuario autenticado de forma anónima");
+  })
+  .catch((error) => {
+    console.error("Error en la autenticación:", error.message);
+  });
 
 
 window.firebaseApp = app;
