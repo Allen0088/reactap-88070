@@ -26,5 +26,15 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
+
+signInAnonymously(auth)
+  .then(() => {
+    console.log("Usuario autenticado de forma anónima");
+  })
+  .catch((error) => {
+    console.error("Error en la autenticación:", error.message);
+  });
+
+
 window.firebaseApp = app;
 createRoot(document.getElementById('root')).render(<App />);
