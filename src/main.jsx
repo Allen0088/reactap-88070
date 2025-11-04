@@ -11,15 +11,14 @@ console.log("🔥 Firebase Config:", {
 
 
 const firebaseConfig = {
- apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER,
-  appId: import.meta.env.VITE_APP_ID
+  apiKey: "AIzaSyAOUVyM7WgimOqQDw2dsO1mQxZi9ag7dvI", // ← hardcodeada
+  authDomain: "venusapp-cb3af.firebaseapp.com",
+  projectId: "venusapp-cb3af",
+  storageBucket: "venusapp-cb3af.firebasestorage.app",
+  messagingSenderId: "303901164771",
+  appId: "1:303901164771:web:7ab5b64a709ea3810531d6"
 };
 
-console.log("FORZADO:", firebaseConfig);
 
 const app = initializeApp(firebaseConfig);
 
