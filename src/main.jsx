@@ -15,20 +15,13 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    signInAnonymously(auth)
-      .then(() => console.log("Login anónimo OK"))
-      .catch((err) => console.error("Error en login anónimo:", err));
-  } else {
-    console.log("Usuario ya autenticado:", user.uid);
-  }
+console.log("🔥 Firebase Config:", {
+  apiKey: import.meta.env.VITE_API_KEY,
+  projectId: import.meta.env.VITE_PROJECT_ID
 });
 
+const app = initializeApp(firebaseConfig);
+
 window.firebaseApp = app;
-window.firebaseAuth = auth;
 
 createRoot(document.getElementById('root')).render(<App />);
