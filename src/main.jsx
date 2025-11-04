@@ -15,10 +15,6 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 };
 
-if (!firebaseConfig.apiKey) {
-  throw new Error("Falta VITE_API_KEY en .env");
-}
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
