@@ -2,13 +2,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
-
-console.log("🔥 Firebase Config:", {
-  apiKey: import.meta.env.VITE_API_KEY,
-  projectId: import.meta.env.VITE_PROJECT_ID
-});
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyA0UVyM7WgIm0QQDw2ds01mQxZ19ag7dVI",
@@ -22,19 +15,6 @@ const firebaseConfig = {
 console.log("FORZADO:", firebaseConfig);
 
 const app = initializeApp(firebaseConfig);
-
-
-const auth = getAuth(app);
-
-
-signInAnonymously(auth)
-  .then(() => {
-    console.log("Usuario autenticado de forma anónima");
-  })
-  .catch((error) => {
-    console.error("Error en la autenticación:", error.message);
-  });
-
-
 window.firebaseApp = app;
+
 createRoot(document.getElementById('root')).render(<App />);
