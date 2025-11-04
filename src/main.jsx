@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { initializeApp } from 'firebase/app';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA0UVyM7WgIm0QQDw2ds01mQxZ19ag7dVI",
@@ -15,6 +16,20 @@ const firebaseConfig = {
 console.log("FORZADO:", firebaseConfig);
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// LOGIN ANÓNIMO CORRECTO
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Login anónimo OK:", user.uid);
+  } else {
+    console.log("Intentando login anónimo...");
+    signInAnonymously(auth)
+      .then(() => console.log("Login anónimo exitoso"))
+      .catch((error) => console.error("Error login:", error));
+  }
+});
+
 window.firebaseApp = app;
 
 createRoot(document.getElementById('root')).render(<App />);
