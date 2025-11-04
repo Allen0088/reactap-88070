@@ -3,9 +3,6 @@ import App from './App.jsx';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 
-console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
-console.log("Entorno completo:", import.meta.env);
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
