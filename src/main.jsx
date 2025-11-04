@@ -11,12 +11,12 @@ console.log("🔥 Firebase Config:", {
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA0UVyM7WgIm0QQDw2ds01mQxZ19ag7dVI",
-  authDomain: "venusapp-cb3af.firebaseapp.com",
-  projectId: "venusapp-cb3af",
-  storageBucket: "venusapp-cb3af.appspot.com",
-  messagingSenderId: "383901164771",
-  appId: "1:383901164771:web:7ab5b64a709ea3810531d6"
+apiKey: import.meta.env.VITE_API_KEY || "AIzaSyA0UVyM7WgIm0QQDw2ds01mQxZ19ag7dVI",
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN || "venusapp-cb3af.firebaseapp.com",
+  projectId: import.meta.env.VITE_PROJECT_ID || "venusapp-cb3af",
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET || "venusapp-cb3af.appspot.com",
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER || "383901164771",
+  appId: import.meta.env.VITE_APP_ID || "1:383901164771:web:7ab5b64a709ea3810531d6"
 };
 
 console.log("FORZADO:", firebaseConfig);
