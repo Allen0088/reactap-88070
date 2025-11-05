@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
@@ -16,9 +17,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 
-const db = getFirestore(app);
-db.settings({
+const db = getFirestore(app, {
   experimentalAutoDetectLongPolling: true,
 });
+
 const root = createRoot(document.getElementById('root'));
 root.render(<App />);
