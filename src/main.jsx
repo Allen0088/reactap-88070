@@ -5,9 +5,8 @@ import App from './App.jsx';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore'; 
 
-
 const firebaseConfig = {
- apiKey: import.meta.env.VITE_API_KEY,
+  apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
@@ -15,8 +14,11 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 };
 
+
 const app = initializeApp(firebaseConfig);
 
-window.firebaseApp = app;
+
+getFirestore(app);
+
 const root = createRoot(document.getElementById('root'));
 root.render(<App />);
