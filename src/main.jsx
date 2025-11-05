@@ -16,5 +16,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 window.firebaseApp = app;
 getFirestore(app);
+
+db.settings({
+  experimentalForceLongPolling: true,
+});
+
+
 const root = createRoot(document.getElementById('root'));
 root.render(<App />);
