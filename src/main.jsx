@@ -2,7 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY || "AIzaSyAOUVyM7WgimOqQDw2dsO1mQxZi9ag7dvI",
@@ -15,10 +16,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-if (import.meta.env.DEV) {
-  connectAuthEmulator(auth, "http://127.0.0.1:9099");
-  console.log("🔌 Emulador de Auth activado");
+if (import.meta.env.DEV || true) { 
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
+  console.log("Emuladores locales activados: Auth (9099), Firestore (8080)");
 }
 
 (async () => {
@@ -29,7 +32,6 @@ if (import.meta.env.DEV) {
     console.error("❌ Error en la autenticación:", error.message);
   }
 
-  // Renderizar la app
   createRoot(document.getElementById('root')).render(<App />);
 })();
 
