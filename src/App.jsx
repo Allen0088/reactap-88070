@@ -13,10 +13,15 @@ function App() {
   const [producto, setProducto] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const db = getFirestore(window.firebaseApp);
-    const refCollection = collection(db, "items");
+useEffect(() => {
+    if (!window.firebaseApp) {
+      console.error('Firebase no está inicializado aún');
+      setLoading(false);
+      return;
+    }
 
+    const db = getFirestore(window.firebaseApp); 
+    const refCollection = collection(db, "items");
     getDocs(refCollection)
       .then((snapshot) => {
         const data = snapshot.docs.map(doc => ({
