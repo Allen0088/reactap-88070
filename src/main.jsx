@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 
 const app = initializeApp(firebaseConfig);
-
+window.firebaseApp = app;
 
 getFirestore(app);
 

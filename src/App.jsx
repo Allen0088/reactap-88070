@@ -14,7 +14,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const db = getFirestore();
+    const db = getFirestore(window.firebaseApp);
     const refCollection = collection(db, "items");
 
     getDocs(refCollection)
