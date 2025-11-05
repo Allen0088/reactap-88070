@@ -13,12 +13,8 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_APP_ID
 };
-
-
 const app = initializeApp(firebaseConfig);
 window.firebaseApp = app;
-
 getFirestore(app);
-
 const root = createRoot(document.getElementById('root'));
 root.render(<App />);
