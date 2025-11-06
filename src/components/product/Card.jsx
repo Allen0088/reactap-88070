@@ -1,22 +1,26 @@
+// src/components/product/MyCard.jsx
 import React from 'react';
 import { Link } from "react-router-dom";
 
 export const MyCard = ({ objeto }) => {
-return (
+  return (
     <div className="section">
-    <img
+      <img
         src={objeto.image}
         alt={objeto.Producto}
         className="products"
-    />
-    <h3>{objeto.Producto} - {objeto.Categoria}</h3>
-    <h5>{objeto.Detalle}</h5>
-    <p>Precio: ${objeto.Precio}</p>
-<button className="botones">
-        <Link to={`/producto/${objeto.id}`} className="botones">
+      />
+      <h3>{objeto.Producto} - {objeto.Categoria}</h3>
+      <h5>{objeto.Detail}</h5>
+      <p>Precio: ${objeto.Precio}</p>
+      
+      {/* ✅ Botón bonito con Link */}
+      <Link 
+        to={`/producto/${objeto.id}`} 
+        className="card-button"
+      >
         Ver
-        </Link>
-    </button>
+      </Link>
     </div>
-);
+  );
 };

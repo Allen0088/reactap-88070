@@ -2,24 +2,21 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_ID
+  apiKey: "AIzaSyA7x4Dgc3BPwki3mtxM1u-VuOC11SPXhQc",
+  authDomain: "venus-app222.firebaseapp.com",
+  projectId: "venus-app222",
+  storageBucket: "venus-app222.firebasestorage.app",
+  messagingSenderId: "1050247711989",
+  appId: "1:1050247711989:web:3610bc2795853987b749bc"
 };
-const app = initializeApp(firebaseConfig);
 
 
-window.firebaseApp = app; 
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app, {
-  experimentalAutoDetectLongPolling: true,
-});
+
 const root = createRoot(document.getElementById('root'));
 root.render(<App />);

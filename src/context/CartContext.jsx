@@ -1,3 +1,4 @@
+// src/context/CartContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -14,7 +15,6 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
- 
   useEffect(() => {
     const saved = localStorage.getItem('cart');
     if (saved) {
@@ -26,18 +26,15 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
- 
   useEffect(() => {
     if (cart.length > 0) {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
   }, [cart]);
 
- 
-
   const addToCart = (producto, cantidad = 1) => {
     setCart(prevCart => {
-      const stockDisponible = producto.stock || Infinity;
+      const stockDisponible = producto.Stock || Infinity;
       const yaEnCarrito = prevCart.find(item => item.id === producto.id);
       const cantidadActual = yaEnCarrito ? yaEnCarrito.cantidad : 0;
       const nuevaCantidad = cantidadActual + cantidad;
@@ -60,11 +57,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (id) => {
-    setCart(prevCart => {
-      const updatedCart = prevCart.filter(item => item.id !== id);
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-      return updatedCart;
-    });
+    setCart(prevCart => prevCart.filter(item => item.id !== id));
   };
 
   const clearCart = () => {
@@ -80,32 +73,26 @@ export const CartProvider = ({ children }) => {
     return cart.reduce((total, item) => total + item.Precio * item.cantidad, 0);
   };
 
-const hacerOrden = async () => {
-  const app = window.firebaseApp;
-  if (!app) {
-    alert("Firebase no listo");
-    return;
-  }
+  const hacerOrden = async () => {
+    const db = getFirestore(); 
 
-  const db = getFirestore(app);
+    const orden = {
+      items: cart,
+      total: getTotalPrice(),
+      fecha: serverTimestamp(),
+      estado: "pendiente"
+    };
 
-  const orden = {
-    items: cart,
-    total: getTotalPrice(),
-    fecha: serverTimestamp(),
-    estado: "pendiente"
+    try {
+      const docRef = await addDoc(collection(db, "ordenes"), orden);
+      console.log("Orden guardada con ID:", docRef.id);
+      alert("¡Orden enviada con éxito!");
+      clearCart();
+    } catch (error) {
+      console.error("Error al crear orden:", error);
+      alert("Error al enviar la orden: " + error.message);
+    }
   };
-
-  try {
-    const docRef = await addDoc(collection(db, "ordenes"), orden);
-    console.log("Orden guardada:", docRef.id);
-    alert("¡Orden enviada!");
-    clearCart();
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Error: " + error.message);
-  }
-};
 
   const value = {
     cart,

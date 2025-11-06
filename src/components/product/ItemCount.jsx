@@ -1,22 +1,15 @@
+// src/components/product/ItemCount.jsx
 import React, { useState } from 'react';
 
-const ItemCount = ({ stock, initial = 1, onAdd }) => {
+const ItemCount = ({ stock, initial, onAdd }) => {
   const [count, setCount] = useState(initial);
 
   const increment = () => {
-    if (count < stock) {
-      setCount(count + 1);
-    }
+    if (count < stock) setCount(count + 1);
   };
 
   const decrement = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
-
-  const handleAddToCart = () => {
-    onAdd(count);
+    if (count > 1) setCount(count - 1);
   };
 
   return (
@@ -27,7 +20,7 @@ const ItemCount = ({ stock, initial = 1, onAdd }) => {
           onClick={decrement}
           disabled={count <= 1}
         >
-          –
+          -
         </button>
         <span className="count-display">{count}</span>
         <button
@@ -40,7 +33,7 @@ const ItemCount = ({ stock, initial = 1, onAdd }) => {
       </div>
       <button
         className="add-to-cart-btn"
-        onClick={handleAddToCart}
+        onClick={() => onAdd(count)}
         disabled={stock <= 0}
       >
         {stock > 0 ? 'Agregar al carrito' : 'Sin stock'}

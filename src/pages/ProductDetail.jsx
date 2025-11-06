@@ -1,72 +1,76 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/ProductDetail.jsx
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useCart } from '../context/CartContext';
-import { getFirestore, getDoc, doc } from "firebase/firestore";
 import ItemCount from '../components/product/ItemCount';
+
+// ❌ Eliminamos esta línea → NO EXISTE y no la necesitamos
+// import './ProductDetail.css';
 
 export const ProductDetail = () => {
   const { id } = useParams();
-  const { cart, addToCart } = useCart();
+  const { addToCart, cart } = useCart();
 
-  const [producto, setProducto] = useState(null);
-  const [enCarrito, setEnCarrito] = useState(false); 
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [enCarrito, setEnCarrito] = useState(false);
 
   useEffect(() => {
-    const app = window.firebaseApp;
-    if (!app) {
-      console.error("Firebase no está inicializado aún");
-      return;
-    }
-
-    const db = getFirestore(app); 
+    const db = getFirestore();
     const refDoc = doc(db, "items", id);
 
     getDoc(refDoc)
       .then((snapshot) => {
         if (snapshot.exists()) {
-          setProducto({ id: snapshot.id, ...snapshot.data() });
+          setProduct({ id: snapshot.id, ...snapshot.data() });
         } else {
-          console.log("Producto no encontrado");
+          setProduct(null);
         }
+        setLoading(false);
       })
-      .catch(error => console.error("Error al cargar producto:", error));
+      .catch((error) => {
+        console.error("Error al cargar producto:", error);
+        setLoading(false);
+      });
   }, [id]);
 
   useEffect(() => {
-    if (producto && cart.length > 0) {
-      setEnCarrito(cart.some(item => item.id === producto.id));
+    if (product && cart.some(item => item.id === product.id)) {
+      setEnCarrito(true);
     }
-  }, [cart, producto]);
+  }, [cart, product]);
 
-  if (!producto) {
-    return <h2>Cargando...</h2>;
-  }
+  if (loading) return <div className="loading">Cargando...</div>;
+  if (!product) return <div className="loading">Producto no encontrado</div>;
 
   const handleAddToCart = (cantidad) => {
-    addToCart(producto, cantidad);
-    setEnCarrito(true); 
+    addToCart(product, cantidad);
+    setEnCarrito(true);
   };
 
   return (
     <div className="product-detail-container">
       <div className="product-image">
-        <img
-          src={producto.image.trim()}
-          alt={producto.Producto}
-          className="main-image"
-        />
+        {product.image && (
+          <img
+            src={product.image}
+            alt={product.Producto}
+            className="main-image"
+          />
+        )}
       </div>
 
       <div className="product-info">
-        <h1 className="product-title">{producto.Producto}</h1>
-        <p className="product-price">${producto.Precio}</p>
-        <p className="product-stock">Stock disponible: {producto.stock}</p>
+        <h1 className="product-title">{product.Producto}</h1>
+        <p className="product-price">${product.Precio}</p>
+        <p className="product-stock">Stock disponible: {product.Stock}</p>
 
         {enCarrito ? (
-          <p className="already-in-cart">Ya está en el carrito</p>
+          <p className="already-in-cart">✅ Ya está en el carrito</p>
         ) : (
           <ItemCount
-            stock={producto.stock}
+            stock={product.Stock}
             initial={1}
             onAdd={handleAddToCart}
           />
@@ -74,7 +78,7 @@ export const ProductDetail = () => {
 
         <div className="product-description">
           <h3>Descripción</h3>
-          <p>{producto.Categoria} de alta calidad importado.</p>
+          <p>{product.Detail}</p>
         </div>
       </div>
     </div>
