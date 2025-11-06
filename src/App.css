@@ -545,7 +545,6 @@ body {
   font-weight: 400;
 }
 
-/* Loader de puntos rebotando */
 .dots {
   display: flex;
   gap: 6px;
