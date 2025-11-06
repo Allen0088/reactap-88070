@@ -1,4 +1,4 @@
-// src/context/CartContext.js
+
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 

@@ -1,12 +1,9 @@
-// src/pages/ProductDetail.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useCart } from '../context/CartContext';
 import ItemCount from '../components/product/ItemCount';
-
-// ❌ Eliminamos esta línea → NO EXISTE y no la necesitamos
-// import './ProductDetail.css';
 
 export const ProductDetail = () => {
   const { id } = useParams();

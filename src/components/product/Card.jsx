@@ -1,4 +1,4 @@
-// src/components/product/MyCard.jsx
+
 import React from 'react';
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,6 @@ export const MyCard = ({ objeto }) => {
       <h5>{objeto.Detail}</h5>
       <p>Precio: ${objeto.Precio}</p>
       
-      {/* ✅ Botón bonito con Link */}
       <Link 
         to={`/producto/${objeto.id}`} 
         className="card-button"
