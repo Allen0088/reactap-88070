@@ -39,9 +39,18 @@ function App() {
       });
   }, []);
 
-  if (loading) {
-    return <div>Cargando productos...</div>;
-  }
+if (loading) {
+  return (
+    <div className="app-loading-screen">
+      <div className="dots">
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+      </div>
+      <h2>Cargando tienda...</h2>
+    </div>
+  );
+}
 
   return (
     <CartProvider>

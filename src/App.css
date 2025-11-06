@@ -11,7 +11,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* NAVBAR */
 .navBar {
   width: 100%;
   max-width: 1910px;
@@ -50,7 +49,6 @@ body {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
-/* CARDS */
 .products {
   width: 100%;
   height: 200px;
@@ -77,7 +75,6 @@ body {
   justify-content: center;
 }
 
-/* PRODUCT DETAIL */
 .product-detail-container {
   display: flex;
   gap: 40px;
@@ -219,7 +216,6 @@ body {
   line-height: 1.6;
 }
 
-/* CART WIDGET */
 .cart-widget-container {
   position: relative;
 }
@@ -246,7 +242,6 @@ body {
   font-weight: bold;
 }
 
-/* CART PAGE */
 .cart-page {
   padding: 40px 20px 30px;
   margin: 60px auto 0;
@@ -376,7 +371,6 @@ body {
   font-size: 24px;
 }
 
-/* CONTACT */
 .contact-page {
   display: flex;
   justify-content: center;
@@ -453,7 +447,6 @@ body {
   background-color: #0056b3;
 }
 
-/* HOME & FOOTER */
 .promo-banner {
   background: linear-gradient(45deg, #6b6b6b, #000000);
   color: white;
@@ -497,7 +490,6 @@ body {
   transform: scale(1.2);
 }
 
-/* UTILS */
 .loading {
   text-align: center;
   font-size: 2rem;
@@ -505,7 +497,6 @@ body {
   padding: 50px;
 }
 
-/* --- BOTÓN DE TARJETA --- */
 .card-button {
   display: inline-block;
   padding: 8px 16px;
@@ -526,4 +517,57 @@ body {
 
 .card-button:active {
   transform: translateY(0);
+}
+
+.app-loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #4caf50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  padding: 2rem;
+}
+
+.app-loading-screen h2 {
+  font-size: 2.2rem;
+  margin-top: 1.5rem;
+  letter-spacing: 1px;
+  color: #b0b0b0;
+  font-weight: 400;
+}
+
+/* Loader de puntos rebotando */
+.dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { 
+    transform: scale(0); 
+  }
+  40% { 
+    transform: scale(1); 
+  }
 }
